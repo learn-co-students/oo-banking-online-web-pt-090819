@@ -4,7 +4,7 @@ class Transfer
   def initialize(sender,receiver,amount)
       @sender = sender
       @receiver = receiver 
-      @amount = 50
+      @amount = amount
       @status = "pending"
   end 
   
@@ -22,16 +22,19 @@ class Transfer
         receiver.balance += amount 
         @status ="complete"
       else
-         
-        sender.balance < amount 
-        @status ="rejected"
+         sender.balance < amount 
+         @status ="rejected"
         "Transaction rejected. Please check your account balance."
       
       end
   end  
   
   def reverse_transfer
-    
-  end 
+    if @status == "complete"
+      sender.deposit(amount)
+      receiver.deposit (amount * -1)
+      @status = "reversed"
+  end
+end
    
 end
